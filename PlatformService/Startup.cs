@@ -78,7 +78,7 @@ namespace PlatformService
                 endpoints.MapControllers();
             });
 
-            PreparationDb.PreparePopulation(app);
+            PreparationDb.PreparePopulation(app, env.IsProduction());
         }
     }
 }

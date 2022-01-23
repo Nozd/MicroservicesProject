@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PlatformService.Models;
 using System;
@@ -8,16 +9,29 @@ namespace PlatformService.Data
 {
     public static class PreparationDb
     {
-        public static void PreparePopulation(IApplicationBuilder app)
+        public static void PreparePopulation(IApplicationBuilder app, bool isProd)
         {
             using(var serviceScope = app.ApplicationServices.CreateScope())
             {
-                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>());
+                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), isProd);
             }
         }
 
-        private static void SeedData(AppDbContext context)
+        private static void SeedData(AppDbContext context, bool isProd)
         {
+            if (isProd)
+            {
+                Console.WriteLine("--> Attempting to apply migrations...");
+                try
+                {
+                    context.Database.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"--> Could not run migrations, reason: {ex.Message}.");
+                }
+            }
+
             if (context.Platforms.Any())
             {
                 Console.WriteLine("--> We already have data.");

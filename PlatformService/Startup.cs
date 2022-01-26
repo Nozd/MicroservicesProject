@@ -43,7 +43,6 @@ namespace PlatformService
                 services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("InMem"));
             }
 
-
             services.AddScoped<IPlatformRepository, PlatformRepository>();
             services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 

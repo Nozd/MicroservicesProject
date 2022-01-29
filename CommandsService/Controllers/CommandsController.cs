@@ -27,7 +27,7 @@ namespace CommandsService.Controllers
         {
             Console.WriteLine($"--> Hit {nameof(GetCommandsForPlatform)}: {platformId}.");
 
-            if (!repository.PlatformExits(platformId))
+            if (!repository.PlatformExists(platformId))
             {
                 return NotFound();
             }
@@ -42,7 +42,7 @@ namespace CommandsService.Controllers
         {
             Console.WriteLine($"--> Hit {nameof(GetCommandForPlatform)}: {platformId} / {commandId}.");
 
-            if (!repository.PlatformExits(platformId))
+            if (!repository.PlatformExists(platformId))
             {
                 return NotFound();
             }
@@ -62,7 +62,7 @@ namespace CommandsService.Controllers
         {
             Console.WriteLine($"--> Hit {nameof(CreateCommandForPlatform)}: {platformId} / {JsonSerializer.Serialize(commandDto)}.");
 
-            if (!repository.PlatformExits(platformId))
+            if (!repository.PlatformExists(platformId))
             {
                 return NotFound();
             }

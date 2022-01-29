@@ -35,6 +35,8 @@ namespace CommandsService.Data
             context.Platforms.Add(platform);
         }
 
+        public bool ExternalPlatformExists(int externalPlatformId) => context.Platforms.Any(p => p.ExternalId == externalPlatformId);
+
         public IEnumerable<Platform> GetAllPlatforms() => context.Platforms.ToList();
 
         public Command GetCommand(int platformId, int commandId)
@@ -51,7 +53,7 @@ namespace CommandsService.Data
                 .OrderBy(c => c.Platform.Name);
         }                
 
-        public bool PlatformExits(int platformId) => context.Platforms.Any(p => p.Id == platformId);
+        public bool PlatformExists(int platformId) => context.Platforms.Any(p => p.Id == platformId);
 
         public bool SaveChanges() => context.SaveChanges() >= 0;
     }

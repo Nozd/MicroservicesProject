@@ -1,20 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CommandsService.AsyncDataServices;
 using CommandsService.Data;
 using CommandsService.EventProcessing;
+using CommandsService.SyncDataServices.Grpc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace CommandsService
 {
@@ -32,9 +27,8 @@ namespace CommandsService
         {
             services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("InMem"));
             services.AddScoped<ICommandRepository, CommandRepository>();
-
             services.AddHostedService<MessageBusSubscriber>();
-
+            services.AddScoped<IPlatformDataClient, PlatformDataClient>();
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -64,6 +58,8 @@ namespace CommandsService
             {
                 endpoints.MapControllers();
             });
+
+            PreparationDb.PreparePopulation(app);
         }
     }
 }

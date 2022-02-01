@@ -46,7 +46,7 @@ namespace PlatformService.Controllers
         [HttpGet("{id}", Name = "GetPlatformById")]
         public ActionResult<PlatformReadDto> GetPlatformById(int id)
         {
-            var platformItem = repository.GetPlatformById(id);
+            var platformItem = repository.GetById(id);
 
             return platformItem != null ? Ok(mapper.Map<PlatformReadDto>(platformItem)) : NotFound();
         }
@@ -55,7 +55,7 @@ namespace PlatformService.Controllers
         public async Task<ActionResult<PlatformReadDto>> CreatePlatform(PlatformCreateDto platformCreateDto)
         {
             var platformModel = mapper.Map<Platform>(platformCreateDto);
-            repository.CreatePlatform(platformModel);
+            repository.Create(platformModel);
             repository.SaveChanges();
 
             var platformReadDto = mapper.Map<PlatformReadDto>(platformModel);

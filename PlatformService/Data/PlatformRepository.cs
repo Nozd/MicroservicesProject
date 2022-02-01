@@ -14,7 +14,7 @@ namespace PlatformService.Data
         {
             this.context = context;
         }
-        public void CreatePlatform(Platform platform)
+        public void Create(Platform platform)
         {
             if (platform == null)
             {
@@ -26,7 +26,7 @@ namespace PlatformService.Data
 
         public IEnumerable<Platform> GetAll() => context.Platforms;
 
-        public Platform GetPlatformById(int id) => context.Platforms.FirstOrDefault(t => t.Id == id);
+        public Platform GetById(int id) => context.Platforms.FirstOrDefault(t => t.Id == id);
 
         public bool SaveChanges() => context.SaveChanges() >= 0;
     }
